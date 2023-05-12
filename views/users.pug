@@ -1,6 +1,32 @@
-doctype html
+doctype
 html(lang='en')
     head
         title UserMan - All Users
+        link(rel='stylesheet', href='/users.css')
     body
-        h1 Hello, World!
+        h1 User Manager
+        if userList.length == 0
+            p There are no users.
+        else
+            table
+                tr
+                    th username
+                    th name
+                    th email
+                    th age
+                    th uuid
+                each user in userList
+                    tr
+                        td=user.username
+                        td=user.name
+                        td=user.email
+                        td=user.age
+                        td=user.uuid
+                        td
+                            button.ed
+                                img.edit(alt="Edit" src="/edit.png" onclick="window.location.href='/edit/" + user.uuid + "'")
+                        td
+                            button.ed
+                                img.delete(alt="Delete" src="/delete.png" onclick="window.location.href='/delete/" + user.uuid + "'")
+        p
+            button(onclick="window.location.href='/create'") Add a User...

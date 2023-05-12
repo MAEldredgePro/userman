@@ -1,0 +1,22 @@
+form(method='POST' action='/save')
+    if (user)
+        input(type="hidden" name="uuid" id="uuid" value=user.uuid)
+        br
+        input(type="text" name="username" id="username" placeholder="username" value=user.username)
+        br
+        input(type="text" name="name" id="name" placeholder="Name" value=user.name)
+        br
+        input(type="text" name="email" id="email" placeholder="email" value=user.email)
+        br
+        input(type="text" name="age" id="age" placeholder="age" value=user.age)
+        br
+    else
+        input(type="text" name="username" id="username" placeholder="username")
+        br
+        input(type="text" name="name" id="name" placeholder="Name")
+        br
+        input(type="text" name="email" id="email" placeholder="email")
+        br
+        input(type="text" name="age" id="age" placeholder="age")
+        br
+    button(type="submit") Save

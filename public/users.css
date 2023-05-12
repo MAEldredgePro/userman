@@ -1,0 +1,15 @@
+.edit, .delete {
+    display: block;
+    width: 17px;
+    height: 17px;
+}
+
+.ed {
+    border: none;
+    padding: 0px;
+}
+
+table, th, tr, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
