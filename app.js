@@ -1,36 +1,21 @@
 const express = require('express');
 const fs = require('fs');
-const {v4: uuidv4} = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
 const port = 3000
 const path = require('path');
 const userDatafilename = './users.json';
-var users = loadUsers();
+let users = loadUsers();
 const app = express();
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: false }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-
-// var users = [
-//     {
-//         username: 'maeldredge3',
-//         email: 'maeldredge3@gmail.com'
-//     },
-//     {
-//         username: 'jleldredge',
-//         email: 'jlynn.eldredge@gmail.com'
-//     }
-// ]
-
-//fs.writeFileSync(filename, users);
-//fs.writeFileSync(filename, JSON.stringify(users));
-
 // handle the default request for the website.
 // Send back the 'all users' page
 app.get('/', (req, res) => {
-    res.render('users', {userList: users});
+    res.render('users', { userList: users });
 });
 
 app.get('/create', (req, res) => {
@@ -65,23 +50,30 @@ app.post('/save', (req, res) => {
 
     users.push(user);
 
-    users.sort((a, b) => (a.username > b.username) ? 1 : (a.username === b.username) ? 0 : -1);
+    users.sort((a, b) => {
+        if (a.username > b.username) {
+            return 1;
+        } else if (a.username === b.username) {
+            return 0;
+        } else {
+            return -1;
+        }
 
-    fs.writeFileSync(userDatafilename, JSON.stringify(users));
+        fs.writeFileSync(userDatafilename, JSON.stringify(users));
 
-    res.render('redirect');
-});
+        res.render('redirect');
+    });
 
-app.listen(port, () => {
-    console.log(`User Manager listening on port ${port}`);
-});
+    app.listen(port, () => {
+        console.log(`User Manager listening on port ${port}`);
+    });
 
-function loadUsers() {
-    if (!fs.existsSync(userDatafilename)) {
-        return [];
+    function loadUsers() {
+        if (!fs.existsSync(userDatafilename)) {
+            return [];
+        }
+
+        let users = require(userDatafilename);
+        console.log(`Loaded ${users.length} previously saved users.`)
+        return users;
     }
-
-    var users = require(userDatafilename);
-    console.log(`Loaded ${users.length} previously saved users.`)
-    return users;
-}
